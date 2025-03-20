@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import CustomAlert from "../Alertas/CustomAlert";
 import "./Register.css";
-import Swal from "sweetalert2";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function Register() {
   const [name, setName] = useState("");
@@ -16,6 +16,9 @@ function Register() {
   const [modalTitle, setModalTitle] = useState("");
   const [modalMessage, setModalMessage] = useState("");
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,12 +40,6 @@ function Register() {
       setModalTitle("Error");
       setModalMessage("Ha ocurrido un error al registrarte.");
       setShowModal(true);
-      
-        // Swal.fire({
-        //   icon: "error",
-        //   title: "Error",
-        //   text: err.response.data.message || "Ha ocurrido un error al registrarte.",
-        // });
     }
   };
 
@@ -65,74 +62,82 @@ function Register() {
     }
   };
 
-  return (
-    <div className="register-container">
-      <div className="register-box">
-        <form onSubmit={handleSubmit}>
-          <h2 className="h2-color">Registrarse</h2>
-          <div className="input-group">
-            <label htmlFor="name">Nombre</label>
-            <input
-              id="name"
-              type="text"
-              placeholder="Nombre"
-              onChange={(e) => setName(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="email">Correo</label>
-            <input
-              id="email"
-              type="email"
-              placeholder="Correo"
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div className="input-group">
-            <label htmlFor="password">Contraseña</label>
+return (
+  <div className="register-container">
+    <div className="register-box">
+      <form onSubmit={handleSubmit}>
+        <h2 className="h2-color">Registrarse</h2>
+        <div className="input-group">
+          <label htmlFor="name">Nombre</label>
+          <input
+            id="name"
+            type="text"
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="email">Correo</label>
+          <input
+            id="email"
+            type="email"
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="input-group">
+          <label htmlFor="password">Contraseña</label>
+          <div className="input-with-icon">
             <input
               id="password"
-              type="password"
-              placeholder="Contraseña"
+              type={showPassword ? "text" : "password"}
               onChange={handlePasswordChange}
               required
             />
+            <i
+              className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}
+              onClick={() => setShowPassword(!showPassword)}
+            ></i>
           </div>
-          <div className="input-group">
-            <label htmlFor="confirm-password">Confirmar Contraseña</label>
+        </div>
+        <div className="input-group">
+          <label htmlFor="confirm-password">Confirmar Contraseña</label>
+          <div className="input-with-icon">
             <input
               id="confirm-password"
-              type="password"
-              placeholder="Confirmar contraseña"
+              type={showConfirmPassword ? "text" : "password"}
               onChange={handleConfirmPasswordChange}
               required
             />
-            {passwordError && <p className="error-message">{passwordError}</p>}
+            <i
+              className={`bi ${showConfirmPassword ? "bi-eye-slash" : "bi-eye"}`}
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            ></i>
           </div>
-          <button
-            type="submit"
-            className="register-button"
-            disabled={!!passwordError || password !== confirmPassword}
-          >
-            Registrarse
-          </button>
-        </form>
-        <div className="login-link">
-          <p>¿Ya tienes cuenta? <a href="/">Inicia sesión aquí</a></p>
+          <p className="error-message">{passwordError || "\u00A0"}</p>
         </div>
+        <button
+          type="submit"
+          className="register-button"
+          disabled={!!passwordError || password !== confirmPassword}
+        >
+          Registrarse
+        </button>
+      </form>
+      <div className="login-link">
+        <p>¿Ya tienes cuenta? <a href="/">Inicia sesión aquí</a></p>
       </div>
-      {showModal && (
-        <CustomAlert
-          type={modalType}
-          title={modalTitle}
-          message={modalMessage}
-          onConfirm={closeModal}
-        />
-      )}
     </div>
-  );
+    {showModal && (
+      <CustomAlert
+        type={modalType}
+        title={modalTitle}
+        message={modalMessage}
+        onConfirm={closeModal}
+      />
+    )}
+  </div>
+);
 }
 
 export default Register;

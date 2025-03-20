@@ -6,8 +6,6 @@ import RecursosHumanos from "./components/RH/ViewRH";
 import Dashboard from "./components/Dashboard/Dashboard";
 import "./App.css";
 
-
-
 function App() {
   return (
     <Router>

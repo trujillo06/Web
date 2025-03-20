@@ -1,0 +1,22 @@
+body {
+    background: linear-gradient(to bottom, #003366, #002244);
+    color: white;
+    text-align: center;
+    font-size: 18px;
+}
+.container-custom {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px;
+}
+.table th, .table td {
+    vertical-align: middle;
+    font-size: 20px;
+}
+.btn-lg {
+    font-size: 18px;
+    padding: 10px 20px;
+}
+.search-box {
+    width: 300px;
+}

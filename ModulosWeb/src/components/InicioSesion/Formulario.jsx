@@ -2,16 +2,17 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Formulario.css";
-import Swal from "sweetalert2";
 import CustomAlert from "../Alertas/CustomAlert";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function Formulario() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showModal, setShowModal] = useState(false); // Estado para controlar el modal
-  const [modalType, setModalType] = useState("success"); // Tipo de modal
-  const [modalTitle, setModalTitle] = useState(""); // Título del modal
-  const [modalMessage, setModalMessage] = useState(""); // Mensaje del modal
+  const [showModal, setShowModal] = useState(false); 
+  const [modalType, setModalType] = useState("success"); 
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalMessage, setModalMessage] = useState("");
+  const [showPassword, setShowPassword]= useState("");
   const navigate = useNavigate();
 
   const closeModal = () => {
@@ -35,16 +36,9 @@ function Formulario() {
       setModalMessage(err.response?.data?.message || "Ha ocurrido un error al iniciar sesión.");
       setShowModal(true);
     }
-      // Swal.fire({
-      //   icon: "error",
-      //   title: "Error",
-      //   text: err.response.data.message || "Ha ocurrido un error al registrarte.",
-      // });
   };
 
-
   return (
-    <div className="background">
     <div className="login-container">
       <div className="login-box">
         <h2 className="h2-color">Iniciar Sesión</h2>
@@ -60,16 +54,17 @@ function Formulario() {
           </div>
           <div className="input-group">
             <label htmlFor="password">Contraseña</label>
+            <div className="input-with-icon">
             <input 
               id="password"
-              type="password" 
+              type={showPassword ? "text":"password"} 
               onChange={(e) => setPassword(e.target.value)} 
               required 
             />
+            <i className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}
+              onClick={() => setShowPassword(!showPassword)}></i>
           </div>
-          {/* <div className="options">
-            <a href="/forgot-password">¿Olvidaste tu contraseña?</a>
-          </div> */}
+          </div>
           <button type="submit" className="login-button">Iniciar sesión</button>
         </form>
         <div className="register-link">
@@ -85,7 +80,6 @@ function Formulario() {
               />
             )}
     </div>
-  </div> 
 );
 }
 
