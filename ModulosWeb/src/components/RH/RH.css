@@ -1,0 +1,223 @@
+/*  Nuevo Empleado */
+.registro-container {
+  margin-top: 100px;
+  padding: 40px;
+  max-width: 1200px;
+  background-color: #fff;
+  border-radius: 12px;
+  margin-left: auto;
+  margin-right: auto;
+  min-height: 650px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.titulo {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.8rem;
+  margin-bottom: 35px;
+  color: #333;
+}
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 25px;
+  border-bottom: 2px solid #ccc;
+}
+
+.tab {
+  background-color: transparent;
+  border: none;
+  padding: 12px 24px;
+  font-weight: bold;
+  border-bottom: 3px solid transparent;
+  color: #555;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.tab:hover {
+  color: #1976D2;
+}
+
+.tab.active {
+  border-bottom: 3px solid #1976D2;
+  color: #1976D2;
+}
+
+.form-content {
+  min-height: 400px;
+}
+
+.tab-panel {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.tab-panel.full {
+  flex-direction: column;
+}
+
+.left, .right {
+  flex: 1;
+  min-width: 320px;
+}
+
+.foto-empleado {
+  width: 220px;
+  text-align: center;
+}
+
+.foto-box {
+  width: 100%;
+  height: 160px;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f8f8;
+}
+
+.botones {
+  width: 100%;
+  margin-top: 40px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.btn-siguiente {
+  background-color: #26C6DA;
+  color: white;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+}
+
+.btn-siguiente:hover {
+  background-color: #0097A7;
+}
+
+.btn-secondary {
+  background-color: #e0e0e0;
+  color: #333;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #cfcfcf;
+}
+
+.btn-success {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: 600;
+  padding: 10px 20px;
+  border-radius: 6px;
+  border: none;
+}
+
+.btn-success:hover {
+  background-color: #388E3C;
+}
+
+
+
+/* ViewRH */
+.titulo-empleados {
+  margin-top: 100px;
+  margin-bottom: 40px;
+}
+.col-nombre {
+  width: 22%;
+}
+.col-apaterno {
+  width: 16%;
+}
+.col-amaterno {
+  width: 16%;
+}
+.col-puesto {
+  width: 25%;
+}
+.col-acciones {
+  width: 10%;
+  min-width: 80px;
+}
+table tbody tr {
+  height: 50px;
+}
+
+.iconos-acciones {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+}
+
+.icono-accion {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  transition: transform 0.2s;
+}
+
+.icono-accion:hover {
+  transform: scale(1.1);
+}
+
+.editar-icono:hover {
+  color: #1976D2;
+}
+
+.eliminar-icono:hover {
+  color: #D32F2F;
+}
+
+@media (max-width: 768px) {
+  .dropdowns {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .dropdowns select.form-select {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .buscador {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .btn-agregar {
+    align-self: flex-start;
+  }
+
+  .d-flex.flex-wrap.justify-content-between.align-items-center.mb-4 {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 768px) {
+  .col-amaterno,
+  .col-puesto {
+    display: none !important;
+  }
+}
