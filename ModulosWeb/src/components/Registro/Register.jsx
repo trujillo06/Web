@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import CustomAlert from "../Alertas/CustomAlert";
 import "./Register.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function Register() {
   const [name, setName] = useState("");
@@ -18,34 +19,69 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL_AUTH;
+
+  const sanitizeInput = (input) => {
+    return input
+      .replace(/[<>{}"']/g, "")
+      .replace(/script/gi, "");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (password !== confirmPassword) {
+    const sanitizedName = sanitizeInput(name.trim());
+    const sanitizedEmail = sanitizeInput(email.trim());
+    const sanitizedPassword = sanitizeInput(password.trim());
+
+    if (sanitizedPassword.length < 6) {
+      setPasswordError("La contraseña debe tener al menos 6 caracteres.");
+      return;
+    }
+
+    if (sanitizedPassword !== confirmPassword.trim()) {
       setPasswordError("Las contraseñas no coinciden.");
       return;
     }
+
     try {
-      await axios.post("http://localhost:8080/api/auth/register", { name, email, password });
+      await axios.post(`${API_URL}register`, {
+        nombre: sanitizedName,
+        correo: sanitizedEmail,
+        password: sanitizedPassword,
+        rol: 1
+      });
 
       setModalType("success");
       setModalTitle("¡Registro exitoso!");
       setModalMessage("Ahora puedes iniciar sesión.");
       setShowModal(true);
 
+      setName("");
+      setEmail("");
+      setPassword("");
+      setConfirmPassword("");
     } catch (err) {
+      console.error("Error al registrar:", err);
+
+      let message = "Ha ocurrido un error al registrarte.";
+      if (err.response) {
+        message = err.response.data?.message || "Correo ya registrado.";
+      }
+
       setModalType("error");
       setModalTitle("Error");
-      setModalMessage("Ha ocurrido un error al registrarte.");
+      setModalMessage(message);
       setShowModal(true);
     }
   };
 
   const closeModal = () => {
     setShowModal(false);
+    if (modalType === "success") {
+      navigate("/"); 
+    }
   };
-
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
@@ -61,82 +97,106 @@ function Register() {
     }
   };
 
-return (
-  <div className="register-container">
-    <div className="register-box">
-      <form onSubmit={handleSubmit}>
-        <h2 className="h2-color">Registrarse</h2>
-        <div className="input-group">
-          <label htmlFor="name">Nombre</label>
-          <input
-            id="name"
-            type="text"
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label htmlFor="email">Correo</label>
-          <input
-            id="email"
-            type="email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div className="input-group">
-          <label htmlFor="password">Contraseña</label>
-          <div className="input-with-icon">
+  return (
+    <div className="register-container">
+      <div className="register-box">
+        <form onSubmit={handleSubmit} autoComplete="off" spellCheck="false">
+          <h2 className="h2-color">Registrarse</h2>
+
+          <div className="input-group">
+            <label htmlFor="name">Nombre</label>
             <input
-              id="password"
-              type={showPassword ? "text" : "password"}
-              onChange={handlePasswordChange}
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
+              minLength={2}
+              maxLength={50}
             />
-            <i
-              className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}
-              onClick={() => setShowPassword(!showPassword)}
-            ></i>
           </div>
-        </div>
-        <div className="input-group">
-          <label htmlFor="confirm-password">Confirmar Contraseña</label>
-          <div className="input-with-icon">
+
+          <div className="input-group">
+            <label htmlFor="email">Correo</label>
             <input
-              id="confirm-password"
-              type={showConfirmPassword ? "text" : "password"}
-              onChange={handleConfirmPasswordChange}
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
+              maxLength={50}
             />
-            <i
-              className={`bi ${showConfirmPassword ? "bi-eye-slash" : "bi-eye"}`}
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            ></i>
           </div>
-          <p className="error-message">{passwordError || "\u00A0"}</p>
+
+          <div className="input-group">
+            <label htmlFor="password">Contraseña</label>
+            <div className="input-with-icon">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={handlePasswordChange}
+                required
+                minLength={6}
+                maxLength={32}
+                autoComplete="new-password"
+              />
+              <i
+                className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}
+                onClick={() => setShowPassword(!showPassword)}
+                role="button"
+                aria-label="Mostrar u ocultar contraseña"
+              ></i>
+            </div>
+          </div>
+
+          <div className="input-group">
+            <label htmlFor="confirm-password">Confirmar Contraseña</label>
+            <div className="input-with-icon">
+              <input
+                id="confirm-password"
+                type={showConfirmPassword ? "text" : "password"}
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                required
+                minLength={6}
+                maxLength={32}
+                autoComplete="new-password"
+              />
+              <i
+                className={`bi ${showConfirmPassword ? "bi-eye-slash" : "bi-eye"}`}
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                role="button"
+                aria-label="Mostrar u ocultar confirmación de contraseña"
+              ></i>
+            </div>
+            <p className="error-message">{passwordError || "\u00A0"}</p>
+          </div>
+
+          <button
+            type="submit"
+            className="register-button"
+            disabled={!!passwordError || password !== confirmPassword}
+          >
+            Registrarse
+          </button>
+        </form>
+
+        <div className="login-link">
+          <p>¿Ya tienes cuenta? <a href="/">Inicia sesión aquí</a></p>
         </div>
-        <button
-          type="submit"
-          className="register-button"
-          disabled={!!passwordError || password !== confirmPassword}
-        >
-          Registrarse
-        </button>
-      </form>
-      <div className="login-link">
-        <p>¿Ya tienes cuenta? <a href="/">Inicia sesión aquí</a></p>
       </div>
+
+      {showModal && (
+        <CustomAlert
+          type={modalType}
+          title={modalTitle}
+          message={modalMessage}
+          onConfirm={closeModal}
+        />
+      )}
     </div>
-    {showModal && (
-      <CustomAlert
-        type={modalType}
-        title={modalTitle}
-        message={modalMessage}
-        onConfirm={closeModal}
-      />
-    )}
-  </div>
-);
+  );
 }
 
 export default Register;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./RH.css";
+import "./Form.css";
 import Navbar from "../Navbar/Navbar";
 
 const FormularioEmpleado = () => {
@@ -9,8 +9,6 @@ const FormularioEmpleado = () => {
     <div>
       <Navbar />
       <div className="registro-container">
-        <h3 className="titulo">Registro de Nuevos Empleados</h3>
-
         <div className="tabs">
           <button
             className={`tab ${activeTab === "personales" ? "active" : ""}`}
@@ -31,36 +29,83 @@ const FormularioEmpleado = () => {
             Documentación
           </button>
         </div>
-
         <div className="form-content">
           {activeTab === "personales" && (
             <div className="tab-panel">
               <div className="left">
-                <input type="text" className="form-control mb-2" placeholder="Nombre(s)" />
-                <input type="text" className="form-control mb-2" placeholder="Apellido Paterno" />
-                <input type="text" className="form-control mb-2" placeholder="Apellido Materno" />
-                <input type="date" className="form-control mb-2" placeholder="Fecha de Nacimiento" />
+                <label>
+                  <span>Nombre(s):</span>
+                  <input type="text" className="input-rounded" />
+                </label>
+                <label>
+                  <span>Apellido Paterno:</span>
+                  <input type="text" className="input-rounded" />
+                </label>
+                <label>
+                  <span>Apellido Materno:</span>
+                  <input type="text" className="input-rounded" />
+                </label>
+                <label>
+                  <span>Fecha de Nacimiento:</span>
+                  <input type="date" className="input-rounded" />
+                </label>
+                <label>
+                  <span>Sexo:</span>
+                  <div className="radio-options">
+                    <label>
+                      <input
+                        type="radio"
+                        className="input-rounded"
+                        name="sexo"
+                      />{" "}
+                      Masculino
+                    </label>
+                    <label>
+                      <input
+                        type="radio"
+                        className="input-rounded"
+                        name="sexo"
+                      />{" "}
+                      Femenino
+                    </label>
+                  </div>
+                </label>
 
-                <div className="mb-2 d-flex align-items-center gap-3">
-                  <label>Sexo:</label>
-                  <label><input type="radio" name="sexo" className="me-1" /> Masculino</label>
-                  <label><input type="radio" name="sexo" className="me-1" /> Femenino</label>
-                </div>
-
-                <select className="form-select mb-2">
-                  <option>Estado Civil</option>
-                  <option>Soltero</option>
-                  <option>Casado</option>
-                </select>
+                <label>
+                  <span>Estado Civil:</span>
+                  <select>
+                    <option>Estado Civil</option>
+                    <option>Soltero</option>
+                    <option>Casado</option>
+                  </select>
+                </label>
               </div>
 
               <div className="right">
-                <input type="text" className="form-control mb-2" placeholder="Dirección" />
-                <input type="text" className="form-control mb-2" placeholder="Teléfono" />
-                <input type="text" className="form-control mb-2" placeholder="CURP" />
-                <input type="email" className="form-control mb-2" placeholder="Correo" />
-                <input type="text" className="form-control mb-2" placeholder="RFC" />
-                <input type="text" className="form-control mb-2" placeholder="NSS" />
+                <label>
+                  <span>Dirección:</span>
+                  <input type="text" className="input-rounded" />
+                </label>
+                <label>
+                  <span>Teléfono:</span>
+                  <input type="text" className="input-rounded" />
+                </label>
+                <label>
+                  <span>CURP:</span>
+                  <input type="text" className="input-rounded" />
+                </label>
+                <label>
+                  <span>Correo:</span>
+                  <input type="email" className="input-rounded" />
+                </label>
+                <label>
+                  <span>RFC:</span>
+                  <input type="text" className="input-rounded" />
+                </label>
+                <label>
+                  <span>NSS:</span>
+                  <input type="text" className="input-rounded" />
+                </label>
               </div>
 
               <div className="foto-empleado">
@@ -68,11 +113,22 @@ const FormularioEmpleado = () => {
                   <i className="bi bi-camera" style={{ fontSize: "2rem" }}></i>
                 </div>
                 <p className="text-center mt-2">Número de Empleado:</p>
-                <input type="text" className="form-control text-center" disabled value="0001" />
+                <input type="text" disabled value="0001" />
               </div>
 
               <div className="botones">
-                <button className="btn btn-siguiente" onClick={() => setActiveTab("laborales")}>Siguiente</button>
+                <button
+                  className="form-btn form-btn-cancelar"
+                  onClick={() => (window.location.href = "/recursos-humanos")}
+                >
+                  Cancelar
+                </button>
+                <button
+                  className="form-btn form-btn-siguiente"
+                  onClick={() => setActiveTab("laborales")}
+                >
+                  Siguiente
+                </button>
               </div>
             </div>
           )}
@@ -80,53 +136,113 @@ const FormularioEmpleado = () => {
           {activeTab === "laborales" && (
             <div className="tab-panel">
               <div className="left">
-                <input type="date" className="form-control mb-2" placeholder="Fecha Ingreso" />
-                <input type="text" className="form-control mb-2" placeholder="Tipo de Contrato" />
-                <select className="form-select mb-2"><option>Puesto</option></select>
-                <select className="form-select mb-2"><option>Departamento</option></select>
-                <select className="form-select mb-2"><option>Sucursal</option></select>
+                <label>
+                  <span>Fecha de Ingreso:</span>
+                  <input type="date" className="input-rounded" />
+                </label>
+                <label>
+                  <span>Tipo de Contrato:</span>
+                  <input type="text" className="input-rounded" />
+                </label>
+                <label>
+                  <span>Puesto:</span>
+                  <select>
+                    <option>Puesto</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Departamento:</span>
+                  <select>
+                    <option>Departamento</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Sucursal:</span>
+                  <select>
+                    <option>Sucursal</option>
+                  </select>
+                </label>
               </div>
 
               <div className="right">
-                <select className="form-select mb-2"><option>Turno</option></select>
-                <input type="number" className="form-control mb-2" placeholder="Salario" />
+                <label>
+                  <span>Turno:</span>
+                  <select>
+                    <option>Turno</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Salario:</span>
+                  <input type="number" className="input-rounded" />
+                </label>
               </div>
 
               <div className="botones">
-                <button className="btn btn-secondary" onClick={() => setActiveTab("personales")}>Regresar</button>
-                <button className="btn btn-siguiente" onClick={() => setActiveTab("documentacion")}>Siguiente</button>
+                <button
+                  className="form-btn form-btn-cancelar"
+                  onClick={() => setActiveTab("personales")}
+                >
+                  Regresar
+                </button>
+                <button
+                  className="form-btn form-btn-siguiente"
+                  onClick={() => setActiveTab("documentacion")}
+                >
+                  Siguiente
+                </button>
               </div>
             </div>
           )}
 
           {activeTab === "documentacion" && (
             <div className="tab-panel full">
-              {[
-                "Acta de Nacimiento", "CURP", "INE", "Comprobante de Domicilio",
-                "Comprobante de Estudios", "Número de Seguro Social", "Constancia de situación fiscal"
-              ].map((label, idx) => (
-                <div className="mb-2" key={idx}>
-                  <label>{label}</label>
-                  <input type="file" className="form-control" />
-                </div>
-              ))}
+              <div className="documentacion-grid">
+                {[
+                  "Acta de Nacimiento",
+                  "CURP",
+                  "INE",
+                  "Comprobante de Domicilio",
+                  "Comprobante de Estudios",
+                  "Número de Seguro Social",
+                  "Constancia de situación fiscal",
+                ].map((label, idx) => (
+                  <div className="doc-item" key={idx}>
+                    <label>{label}</label>
+                    <input type="file" className="input-rounded input-file" />
+                  </div>
+                ))}
 
-              <div className="mb-2">
-                <label>Contrato firmado:</label>
-                <div>
-                  <label className="me-3"><input type="radio" name="contrato" /> Sí</label>
-                  <label><input type="radio" name="contrato" /> No</label>
+                <div className="doc-item">
+                  <label>Contrato firmado:</label>
+                  <div className="radio-group-doc">
+                    <label>
+                      <input
+                        type="radio"
+                        name="contrato"
+                        className="input-rounded"
+                      />{" "}
+                      Sí
+                    </label>
+                    <label>
+                      <input type="radio" name="contrato" /> No
+                    </label>
+                  </div>
                 </div>
-              </div>
 
-              <div className="mb-3">
-                <label>Contrato</label>
-                <input type="file" className="form-control" />
+                <div className="doc-item">
+                  <label>Contrato</label>
+                  <input type="file" />
+                </div>
               </div>
 
               <div className="botones">
-                <button className="btn btn-secondary" onClick={() => setActiveTab("laborales")}>Regresar</button>
-                <button className="btn btn-success">Guardar</button>
+                <button
+                  className="form-btn form-btn-cancelar"
+                  onClick={() => setActiveTab("laborales")}
+                >
+                  Regresar
+                </button>
+                <button className="form-btn form-btn-siguiente">Guardar</button>
               </div>
             </div>
           )}

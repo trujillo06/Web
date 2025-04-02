@@ -1,0 +1,292 @@
+
+.registro-container {
+    margin: 5px auto;
+    margin-top: 100px;
+    width: 95%;
+    max-width: 1500px;
+    background-color: #f9fbfd;
+    padding: 30px 40px 60px; 
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+    min-height: 520px;
+    overflow: hidden;
+    position: relative;
+}
+
+
+.tabs {
+    display: flex;
+    justify-content: flex-start;
+    background-color: #dfe3e6;
+    border-radius: 6px;
+    overflow: hidden;
+    margin: 0 auto 30px;
+    width: fit-content;
+    padding: 0;
+  }
+  
+  .tab {
+    padding: 12px 40px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    border: none;
+    background-color: #ECEFF1;
+    cursor: pointer;
+    border-radius: 6px 6px 0 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-right: 1px solid #b0bec5;
+    min-width: 350px;
+    text-align: center;
+  }
+  
+  .tab:last-child {
+    border-right: none;
+  }
+  
+  .tab:hover {
+    background-color: #CFD8DC;
+  }
+  
+  .tab.active {
+    background-color: 	#1E3A5F;
+    color: #fff;
+     padding: 10px 30px;
+  }
+
+  
+
+
+.tab-panel {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding: 10px 0;
+}
+
+.tab-panel.full {
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 300px;
+}
+
+/*  COLUMNAS */
+.left, .right {
+    flex: 1;
+    min-width: 300px;
+}
+
+label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+label span {
+    width: 160px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+/*  INPUTS */
+.registro-container input,
+.registro-container select {
+  flex: 1;
+  padding: 4px 10px;
+  font-size: 14px;
+  border: 1px solid #999;
+  background-color: #fff;
+  height: 34px;
+}
+
+.input-file {
+    border: 1px solid #999;
+    border-radius: 6px;
+    padding: 6px 10px;
+    background-color: #fff;
+    font-size: 14px;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+
+input[disabled] {
+    background-color: #eee;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* FOTO */
+.foto-empleado {
+    width: 200px;
+    text-align: center;
+}
+
+.foto-box {
+    width: 100%;
+    height: 150px;
+    border: 2px dashed #ccc;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*  RADIO */
+.radio-group {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 160px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.radio-group-label {
+    font-weight: 500;
+    font-size: 14px;
+    width: 160px;
+    display: flex;
+    align-items: center;
+}
+
+.radio-options {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-left: 10px;
+  }
+  
+
+.radio-group-doc {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+/*  BOTONES */
+.botones {
+    position: absolute;
+    bottom: 20px;
+    right: 40px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.form-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    min-width: 100px;
+    border-radius: 4px;
+  }
+
+.form-btn-siguiente {
+  background-color: rgba(0, 94, 158, 0.9);
+  color: white;
+}
+
+.form-btn-siguiente:hover {
+  background-color: rgba(0, 77, 128, 0.9);
+  color: white;
+}
+
+.form-btn-cancelar {
+  background-color: #CFD8DC;
+  transition: 0.3s;
+  font-weight: 600;
+}
+
+.form-btn-cancelar:hover {
+  background-color: #B0BEC5;
+}
+
+.documentacion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px 40px;
+    margin-bottom: 30px;
+    align-items: start;
+}
+
+.doc-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.doc-item label {
+    margin-bottom: 5px;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.doc-item input {
+    flex: 1;
+    height: 28px;
+    font-size: 13px;
+}
+
+/*  ESPACIADO GENERAL */
+.form-content {
+    margin-top: 30px;
+}
+
+.input-rounded {
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 14px;
+    border: 1px solid #999;
+    background-color: #fff;
+    height: 34px;
+  }
+  
+
+/*  RESPONSIVE */
+@media (max-width: 768px) {
+    .tab-panel {
+        flex-direction: column;
+    }
+
+    .botones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .left,
+    .right,
+    .foto-empleado {
+        width: 100%;
+    }
+
+    .tabs {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .documentacion-grid {
+        grid-template-columns: 1fr;
+    }
+
+    label {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    label span {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .doc-item input {
+        width: 100%;
+    }
+}

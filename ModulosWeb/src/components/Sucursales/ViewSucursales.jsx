@@ -5,7 +5,7 @@ import { PencilSquare, Trash, Plus } from "react-bootstrap-icons";
 import CustomAlert from "../Alertas/CustomAlert";
 import "./Sucursal.css";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL_SUC;
 
 const Sucursales = () => {
   const [sucursales, setSucursales] = useState([]);
@@ -17,8 +17,8 @@ const Sucursales = () => {
   const [newSucursal, setNewSucursal] = useState({
     nombre: "",
     direccion: "",
-    telefono_contacto: "",
-    nombre_encargado: "",
+    telefono_Contacto: "",
+    nombre_Encargado: "",
   });
 
   const [showEditModal, setShowEditModal] = useState(false);
@@ -39,7 +39,7 @@ const Sucursales = () => {
 
   const fetchSucursales = async () => {
     try {
-      const response = await fetch(`${API_URL}/sucursales`);
+      const response = await fetch(`${API_URL}`);
       const data = await response.json();
       setSucursales(data);
     } catch (error) {
@@ -51,7 +51,7 @@ const Sucursales = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${API_URL}/sucursales`, {
+      const response = await fetch(`${API_URL}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(newSucursal),
@@ -87,7 +87,7 @@ const Sucursales = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch(`${API_URL}/sucursales/${editSucursal.id_sucursal}`, {
+      const response = await fetch(`${API_URL}/${editSucursal.id_Sucursal}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(editSucursal),
@@ -127,7 +127,7 @@ const Sucursales = () => {
       message: `¿Estás seguro que deseas eliminar "${sucursal.nombre}"?`,
       onConfirm: () => {
         setShowAlert(false);
-        setTimeout(() => deleteSucursal(sucursal.id_sucursal), 300);
+        setTimeout(() => deleteSucursal(sucursal.id_Sucursal), 300);
       },
       onCancel: () => setShowAlert(false),
     });
@@ -136,7 +136,7 @@ const Sucursales = () => {
 
   const deleteSucursal = async (id) => {
     try {
-      const response = await fetch(`${API_URL}/sucursales/${id}`, {
+      const response = await fetch(`${API_URL}/${id}`, {
         method: "DELETE",
       });
 
@@ -161,18 +161,17 @@ const Sucursales = () => {
     setNewSucursal({
       nombre: "",
       direccion: "",
-      telefono_contacto: "",
-      nombre_encargado: "",
+      telefono_Contacto: "",
+      nombre_Encargado: "",
     });
   };
-  
+
   const closeEditModal = () => {
     setShowEditModal(false);
   };
-  
 
   const filteredSucursales = sucursales.filter((sucursal) =>
-    [sucursal.nombre, sucursal.direccion, sucursal.telefono_contacto, sucursal.nombre_encargado]
+    [sucursal.nombre, sucursal.direccion, sucursal.telefono_Contacto, sucursal.nombre_Encargado]
       .join(" ")
       .toLowerCase()
       .includes(searchTerm.toLowerCase())
@@ -193,9 +192,9 @@ const Sucursales = () => {
         Gestión de Sucursales
       </h2>
 
-      <div className="d-flex justify-content-between align-items-center" style={{ gap: "20px", marginBottom: "50px" }}>
-        <button className="btn btn-agregar" onClick={() => setShowModal(true)} data-tooltip-id="tooltip-agregar">
-          <Plus size={28} style={{ fontWeight: "600" }} />
+      <div className="d-flex justify-content-between align-items-center mb-4" style={{ gap: "20px" }}>
+        <button className="btn btn-agregar" onClick={() => setShowModal(true)}>
+          <Plus size={28} />
         </button>
         <input
           type="text"
@@ -206,35 +205,35 @@ const Sucursales = () => {
         />
       </div>
 
-      <div className="table-responsive" style={{ minHeight: "300px", overflowY: "auto" }}>
-        <table className="table table-hover" style={{ tableLayout: "fixed", width: "100%" }}>
+      <div className="table-responsive">
+        <table className="table table-hover">
           <thead className="custom-header table-dark">
             <tr>
-              <th className="col-nombre">Nombre</th>
-              <th className="col-direccion">Dirección</th>
-              <th className="col-telefono">Teléfono</th>
-              <th className="col-encargado">Encargado</th>
+              <th>Nombre</th>
+              <th>Dirección</th>
+              <th>Teléfono</th>
+              <th>Encargado</th>
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody style={{ backgroundColor: "white" }}>
+          <tbody>
             {rows.map((sucursal, index) => (
-              <tr key={sucursal ? sucursal.id_sucursal : `empty-${index}`} style={{ height: "50px" }}>
-                <td className="align-middle col-nombre">{sucursal?.nombre || ""}</td>
-                <td className="align-middle col-direccion">{sucursal?.direccion || ""}</td>
-                <td className="align-middle col-telefono">{sucursal?.telefono_contacto || ""}</td>
-                <td className="align-middle col-encargado">{sucursal?.nombre_encargado || ""}</td>
-                <td className="text-center align-middle">
+              <tr key={sucursal ? sucursal.id_Sucursal : `empty-${index}`}>
+                <td>{sucursal?.nombre || ""}</td>
+                <td>{sucursal?.direccion || ""}</td>
+                <td>{sucursal?.telefono_Contacto || ""}</td>
+                <td>{sucursal?.nombre_Encargado || ""}</td>
+                <td className="text-center">
                   {sucursal && (
                     <div className="iconos-acciones">
                       <button className="icono-accion editar-icono" onClick={() => {
                         setEditSucursal(sucursal);
                         setShowEditModal(true);
                       }}>
-                        <PencilSquare size={26} weight="bold" />
+                        <PencilSquare size={26} />
                       </button>
                       <button className="icono-accion eliminar-icono" onClick={() => confirmDeleteSucursal(sucursal)}>
-                        <Trash size={26} weight="bold" />
+                        <Trash size={26} />
                       </button>
                     </div>
                   )}
@@ -257,63 +256,28 @@ const Sucursales = () => {
         </ul>
       </nav>
 
-      {/* MODAL AGREGAR */}
+      {/* MODALES */}
       {showModal && (
-        <div className="modal fade show d-block" tabIndex="-1">
-          <div className="modal-dialog modal-dialog-centered">
-            <form className="modal-content" onSubmit={handleAddSucursal}>
-              <div className="modal-header" style={{
-                background: "rgba(0, 94, 158, 0.9)", color: "white", borderBottom: "none",
-                borderRadius: "8px 8px 0 0", padding: "16px 20px"
-              }}>
-                <h5 className="modal-title">Agregar Sucursal</h5>
-                <button type="button" className="btn-close" onClick={closeAddModal}></button>
-              </div>
-              <div className="modal-body">
-                <input required type="text" className="form-control mb-2" placeholder="Nombre" value={newSucursal.nombre} onChange={(e) => setNewSucursal({ ...newSucursal, nombre: e.target.value })} />
-                <input required type="text" className="form-control mb-2" placeholder="Dirección" value={newSucursal.direccion} onChange={(e) => setNewSucursal({ ...newSucursal, direccion: e.target.value })} />
-                <input required type="text" className="form-control mb-2" placeholder="Teléfono" value={newSucursal.telefono_contacto} onChange={(e) => setNewSucursal({ ...newSucursal, telefono_contacto: e.target.value })} />
-                <input required type="text" className="form-control mb-2" placeholder="Encargado" value={newSucursal.nombre_encargado} onChange={(e) => setNewSucursal({ ...newSucursal, nombre_encargado: e.target.value })} />
-              </div>
-              <div className="modal-footer">
-              <button type="button" className="btn btn-cancelar" onClick={closeAddModal}>Cancelar</button>
-                <button type="submit" className="btn btn-guardar">Guardar</button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <SucursalModal
+          title="Agregar Sucursal"
+          sucursal={newSucursal}
+          setSucursal={setNewSucursal}
+          onClose={closeAddModal}
+          onSubmit={handleAddSucursal}
+        />
       )}
 
-      {/* MODAL EDITAR */}
       {showEditModal && (
-        <div className="modal fade show d-block" tabIndex="-1">
-          <div className="modal-dialog modal-dialog-centered">
-            <form className="modal-content" onSubmit={handleEditSucursal}>
-              <div className="modal-header" style={{
-                background: "rgba(0, 94, 158, 0.9)", color: "white", borderBottom: "none",
-                borderRadius: "8px 8px 0 0", padding: "16px 20px"
-              }}>
-                <h5 className="modal-title">Editar Sucursal</h5>
-                <button type="button" className="btn-close" onClick={closeEditModal}></button>
-              </div>
-              <div className="modal-body">
-                <input required type="text" className="form-control mb-2" placeholder="Nombre" value={editSucursal?.nombre || ""} onChange={(e) => setEditSucursal({ ...editSucursal, nombre: e.target.value })} />
-                <input required type="text" className="form-control mb-2" placeholder="Dirección" value={editSucursal?.direccion || ""} onChange={(e) => setEditSucursal({ ...editSucursal, direccion: e.target.value })} />
-                <input required type="text" className="form-control mb-2" placeholder="Teléfono" value={editSucursal?.telefono_contacto || ""} onChange={(e) => setEditSucursal({ ...editSucursal, telefono_contacto: e.target.value })} />
-                <input required type="text" className="form-control mb-2" placeholder="Encargado" value={editSucursal?.nombre_encargado || ""} onChange={(e) => setEditSucursal({ ...editSucursal, nombre_encargado: e.target.value })} />
-              </div>
-              <div className="modal-footer">
-              <button type="button" className="btn btn-cancelar" onClick={closeEditModal}>Cancelar</button>
-                <button type="submit" className="btn btn-guardar">Guardar</button>
-              </div>
-            </form>
-          </div>
-        </div>
+        <SucursalModal
+          title="Editar Sucursal"
+          sucursal={editSucursal}
+          setSucursal={setEditSucursal}
+          onClose={closeEditModal}
+          onSubmit={handleEditSucursal}
+        />
       )}
 
-      {(showModal || showEditModal) && (
-        <div className="modal-backdrop fade show" />
-      )}
+      {(showModal || showEditModal) && <div className="modal-backdrop fade show" />}
 
       {showAlert && (
         <CustomAlert
@@ -327,5 +291,28 @@ const Sucursales = () => {
     </div>
   );
 };
+
+const SucursalModal = ({ title, sucursal, setSucursal, onClose, onSubmit }) => (
+  <div className="modal fade show d-block" tabIndex="-1">
+    <div className="modal-dialog modal-dialog-centered">
+      <form className="modal-content" onSubmit={onSubmit}>
+        <div className="modal-header bg-primary text-white">
+          <h5 className="modal-title">{title}</h5>
+          <button type="button" className="btn-close" onClick={onClose}></button>
+        </div>
+        <div className="modal-body">
+          <input required type="text" className="form-control mb-2" placeholder="Nombre" value={sucursal?.nombre || ""} onChange={(e) => setSucursal({ ...sucursal, nombre: e.target.value })} />
+          <input required type="text" className="form-control mb-2" placeholder="Dirección" value={sucursal?.direccion || ""} onChange={(e) => setSucursal({ ...sucursal, direccion: e.target.value })} />
+          <input required type="text" className="form-control mb-2" placeholder="Teléfono" value={sucursal?.telefono_Contacto || ""} onChange={(e) => setSucursal({ ...sucursal, telefono_Contacto: e.target.value })} />
+          <input required type="text" className="form-control mb-2" placeholder="Encargado" value={sucursal?.nombre_Encargado || ""} onChange={(e) => setSucursal({ ...sucursal, nombre_Encargado: e.target.value })} />
+        </div>
+        <div className="modal-footer">
+          <button type="button" className="btn btn-secondary" onClick={onClose}>Cancelar</button>
+          <button type="submit" className="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+);
 
 export default Sucursales;

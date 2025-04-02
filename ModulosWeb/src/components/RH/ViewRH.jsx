@@ -1,37 +1,97 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "../Navbar/Navbar";
 import { PencilSquare, Trash, Plus } from "react-bootstrap-icons";
-import "./RH.css";
+import CustomAlert from "../Alertas/CustomAlert";
 import { useNavigate } from "react-router-dom";
+import "./RH.css";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 const RecursosHumanos = () => {
-  const [empleados, setEmpleados] = useState([
-    { id: 1, nombre: "Juan Luis", aPaterno: "Aguirre", aMaterno: "Hernández", puesto: "Supervisor de Producción" },
-    { id: 2, nombre: "Roberto", aPaterno: "Almaraz", aMaterno: "Bautista", puesto: "Jefe de almacén" },
-    { id: 3, nombre: "Jacobo", aPaterno: "Segura", aMaterno: "López", puesto: "Técnico de Mantenimiento" },
-    { id: 4, nombre: "Jaqueline", aPaterno: "Ortiz", aMaterno: "Martínez", puesto: "Contador" },
-    { id: 5, nombre: "Brenda Ivonne", aPaterno: "García", aMaterno: "Carlos", puesto: "Ejecutivo de ventas" },
-    { id: 6, nombre: "Samuel", aPaterno: "Monroy", aMaterno: "Aburto", puesto: "Jefe de TI" },
-  ]);
-
+  const [empleados, setEmpleados] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertConfig, setAlertConfig] = useState({
+    type: "confirm",
+    title: "",
+    message: "",
+    onConfirm: () => {},
+    onCancel: () => {},
+  });
+
   const navigate = useNavigate();
 
-  const handleDelete = (id) => {
-    setEmpleados(empleados.filter((e) => e.id !== id));
+  useEffect(() => {
+    fetchEmpleados();
+  }, []);
+
+  const fetchEmpleados = async () => {
+    try {
+      const response = await fetch(`${API_URL}/empleados`);
+      const data = await response.json();
+      setEmpleados(data);
+    } catch (error) {
+      console.error("Error al obtener empleados:", error);
+    }
   };
 
-  const filtered = empleados.filter((e) =>
+  const confirmDeleteEmpleado = (empleado) => {
+    setAlertConfig({
+      type: "confirm",
+      title: "¿Eliminar empleado?",
+      message: `¿Estás seguro que deseas eliminar a "${empleado.nombre} ${empleado.aPaterno}"?`,
+      onConfirm: () => {
+        setShowAlert(false);
+        setTimeout(() => deleteEmpleado(empleado.id_empleado), 300);
+      },
+      onCancel: () => setShowAlert(false),
+    });
+    setShowAlert(true);
+  };
+
+  const deleteEmpleado = async (id) => {
+    try {
+      const response = await fetch(`${API_URL}/empleados/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) throw new Error("Error al eliminar empleado");
+
+      await fetchEmpleados();
+
+      setAlertConfig({
+        type: "success",
+        title: "Empleado eliminado",
+        message: "El empleado ha sido eliminado correctamente.",
+        onConfirm: () => setShowAlert(false),
+      });
+      setShowAlert(true);
+    } catch (error) {
+      console.error(error);
+      setAlertConfig({
+        type: "error",
+        title: "Error al eliminar",
+        message: "No se pudo eliminar al empleado.",
+        onConfirm: () => setShowAlert(false),
+      });
+      setShowAlert(true);
+    }
+  };
+
+  const filteredEmpleados = empleados.filter((e) =>
     [e.nombre, e.aPaterno, e.aMaterno, e.puesto]
-      .some(field => field.toLowerCase().includes(searchTerm.toLowerCase()))
+      .join(" ")
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filtered.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredEmpleados.slice(indexOfFirstItem, indexOfLastItem);
   const emptyRows = itemsPerPage - currentItems.length;
   const rows = [...currentItems, ...Array(emptyRows).fill(null)];
 
@@ -45,7 +105,7 @@ const RecursosHumanos = () => {
         Gestión de Empleados
       </h2>
 
-      <div className="d-flex flex-wrap justify-content-between align-items-center mb-4" style={{ gap: "20px", marginBottom: "50px" }}>
+      <div className="d-flex flex-wrap justify-content-between align-items-center mb-4" style={{ gap: "20px" }}>
         <button className="btn btn-agregar" onClick={() => navigate("/registro-empleado")}>
           <Plus size={26} />
         </button>
@@ -65,7 +125,6 @@ const RecursosHumanos = () => {
             <option>Puesto</option>
             <option>Contador</option>
             <option>Jefe de TI</option>
-            
           </select>
         </div>
 
@@ -94,20 +153,23 @@ const RecursosHumanos = () => {
           </thead>
           <tbody>
             {rows.map((e, index) => (
-              <tr key={index} style={{ height: "50px" }}>
+              <tr key={e ? e.id_empleado : `empty-${index}`} style={{ height: "50px" }}>
                 <td className="align-middle">{e?.nombre || ""}</td>
                 <td className="align-middle">{e?.aPaterno || ""}</td>
-                <td className="align-middle col-amaterno">{e?.aMaterno || ""}</td>
-                <td className="align-middle col-puesto">{e?.puesto || ""}</td>
+                <td className="align-middle">{e?.aMaterno || ""}</td>
+                <td className="align-middle">{e?.puesto || ""}</td>
                 <td className="text-center align-middle col-acciones">
                   {e && (
                     <div className="iconos-acciones">
-                      <button className="icono-accion editar-icono">
+                      <button
+                        className="icono-accion editar-icono"
+                        onClick={() => navigate(`/editar-empleado/${e.id_empleado}`)}
+                      >
                         <PencilSquare size={22} />
                       </button>
                       <button
                         className="icono-accion eliminar-icono"
-                        onClick={() => handleDelete(e.id)}
+                        onClick={() => confirmDeleteEmpleado(e)}
                       >
                         <Trash size={22} />
                       </button>
@@ -122,7 +184,7 @@ const RecursosHumanos = () => {
 
       <nav>
         <ul className="pagination justify-content-center">
-          {Array.from({ length: Math.ceil(filtered.length / itemsPerPage) }, (_, i) => (
+          {Array.from({ length: Math.ceil(filteredEmpleados.length / itemsPerPage) }, (_, i) => (
             <li key={i} className={`page-item ${currentPage === i + 1 ? "active" : ""}`}>
               <button onClick={() => paginate(i + 1)} className="page-link">
                 {i + 1}
@@ -131,6 +193,16 @@ const RecursosHumanos = () => {
           ))}
         </ul>
       </nav>
+
+      {showAlert && (
+        <CustomAlert
+          type={alertConfig.type}
+          title={alertConfig.title}
+          message={alertConfig.message}
+          onConfirm={alertConfig.onConfirm}
+          onCancel={alertConfig.onCancel}
+        />
+      )}
     </div>
   );
 };
