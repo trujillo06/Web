@@ -24,12 +24,6 @@
   font-size: 0.85rem; 
 }
 
-thead.custom-header {
-  background-color: rgba(0, 94, 158, 0.9) !important;
-  color: white !important;
-  text-align: center;
-}
-
 .table td:not(:last-child),
 .table th:not(:last-child) {
   border-right: 1px solid #dee2e6;

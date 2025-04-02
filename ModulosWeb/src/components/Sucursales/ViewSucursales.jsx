@@ -296,8 +296,11 @@ const SucursalModal = ({ title, sucursal, setSucursal, onClose, onSubmit }) => (
   <div className="modal fade show d-block" tabIndex="-1">
     <div className="modal-dialog modal-dialog-centered">
       <form className="modal-content" onSubmit={onSubmit}>
-        <div className="modal-header bg-primary text-white">
-          <h5 className="modal-title">{title}</h5>
+        <div className="modal-header"style={{
+                background: "rgba(0, 94, 158, 0.9)", color: "white", borderBottom: "none",
+                borderRadius: "8px 8px 0 0", padding: "16px 20px"
+              }}>
+        <h5 className="modal-title">{title}</h5>
           <button type="button" className="btn-close" onClick={onClose}></button>
         </div>
         <div className="modal-body">
@@ -307,8 +310,8 @@ const SucursalModal = ({ title, sucursal, setSucursal, onClose, onSubmit }) => (
           <input required type="text" className="form-control mb-2" placeholder="Encargado" value={sucursal?.nombre_Encargado || ""} onChange={(e) => setSucursal({ ...sucursal, nombre_Encargado: e.target.value })} />
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" onClick={onClose}>Cancelar</button>
-          <button type="submit" className="btn btn-primary">Guardar</button>
+          <button type="button" className="btn btn-cancelar" onClick={onClose}>Cancelar</button>
+          <button type="submit" className="btn btn-guardar">Guardar</button>
         </div>
       </form>
     </div>
