@@ -1,6 +1,15 @@
 import * as React from 'react';
-import { AppBar,Box,Toolbar,IconButton,Typography,Menu,Container,Avatar,MenuItem,Tooltip,Backdrop, useMediaQuery,} from '@mui/material';
-import { Logout as LogoutIcon,Person as PersonIcon,Menu as MenuIcon,Business as BusinessIcon,People as PeopleIcon,} from '@mui/icons-material';
+import {
+  AppBar, Box, Toolbar, IconButton, Typography, Menu,
+  Container, Avatar, MenuItem, Tooltip, Backdrop, useMediaQuery
+} from '@mui/material';
+import {
+  Logout as LogoutIcon,
+  Person as PersonIcon,
+  Menu as MenuIcon,
+  Business as BusinessIcon,
+  People as PeopleIcon,
+} from '@mui/icons-material';
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import usuarioIcon from "../../assets/usuario.png";
 
@@ -8,11 +17,21 @@ const settings = ['Cerrar sesión'];
 
 function Navbar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [anchorElMenu, setAnchorElMenu] = React.useState(null); 
-  const [userName, setUserName] = React.useState("Fernanda");
+  const [anchorElMenu, setAnchorElMenu] = React.useState(null);
+  const [userName, setUserName] = React.useState("");
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
   const isMobile = useMediaQuery('(max-width: 768px)');
+
+  // 🟢 Obtener el correo desde sessionStorage y extraer solo lo antes del "@"
+  React.useEffect(() => {
+    const correo = sessionStorage.getItem("correoUsuario");
+    if (correo) {
+      const nombre = correo.split("@")[0];
+      const capitalizado = nombre.charAt(0).toUpperCase() + nombre.slice(1);
+      setUserName(capitalizado);
+    }
+  }, []);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -33,13 +52,13 @@ function Navbar() {
   const handleLogout = () => {
     console.log("Cerrar sesión");
     setAnchorElUser(null);
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("correoUsuario"); // Limpiamos también el correo
     navigate("/");
   };
 
   return (
-  <AppBar position="fixed" sx={{ background: "linear-gradient(to right, #003366, #005f9e)", width: '100%', height: '100px' }}>
-    {/* <AppBar position="fixed" sx={{ backgroundColor: "black"  , width: '100%', height: '100px' }}> */}
+    <AppBar position="fixed" sx={{ background: "linear-gradient(to right, #003366, #005f9e)", width: '100%', height: '100px' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ height: '100px' }}>
           <Typography
@@ -57,13 +76,12 @@ function Navbar() {
               lineHeight: '80px',
             }}
           >
-            {location.pathname !== "/dashboard" && ( 
+            {location.pathname !== "/dashboard" ? (
               <Link to="/dashboard" style={{ color: 'inherit', textDecoration: 'none' }}>
                 Tortilla OS
               </Link>
-            )}
-            {location.pathname === "/dashboard" && ( 
-              <span style={{ userSelect: 'none' }}>Tortilla OS</span> 
+            ) : (
+              <span style={{ userSelect: 'none' }}>Tortilla OS</span>
             )}
           </Typography>
 
@@ -81,10 +99,7 @@ function Navbar() {
                 </IconButton>
               </Tooltip>
               <Backdrop
-                sx={{
-                  zIndex: (theme) => theme.zIndex.drawer + 1,
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                }}
+                sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
                 open={Boolean(anchorElMenu)}
                 onClick={handleCloseMenu}
               />
@@ -92,45 +107,21 @@ function Navbar() {
                 sx={{ mt: '45px' }}
                 id="menu-navigation"
                 anchorEl={anchorElMenu}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                 open={Boolean(anchorElMenu)}
                 onClose={handleCloseMenu}
               >
                 {location.pathname === "/sucursales" && (
-                  <MenuItem
-                    component={Link}
-                    to="/recursos-humanos"
-                    onClick={handleCloseMenu}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1,
-                    }}
-                  >
+                  <MenuItem component={Link} to="/recursos-humanos" onClick={handleCloseMenu}>
                     <PeopleIcon />
                     <Typography>Recursos Humanos</Typography>
                   </MenuItem>
                 )}
                 {location.pathname === "/recursos-humanos" && (
-                  <MenuItem
-                    component={Link}
-                    to="/sucursales"
-                    onClick={handleCloseMenu}
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: 1,
-                    }}
-                  >
-                    <BusinessIcon /> 
+                  <MenuItem component={Link} to="/sucursales" onClick={handleCloseMenu}>
+                    <BusinessIcon />
                     <Typography>Sucursales</Typography>
                   </MenuItem>
                 )}
@@ -141,32 +132,26 @@ function Navbar() {
           {!isMobile && (
             <Box sx={{ flexGrow: 0, display: 'flex', alignItems: 'center', gap: 2 }}>
               {location.pathname === "/sucursales" && (
-                <Typography
-                  component={Link}
-                  to="/recursos-humanos"
-                  sx={{ 
-                    color: location.pathname === "/recursos-humanos" ? '#009DCF' : 'white', 
-                    textDecoration: 'none', 
+                <Typography component={Link} to="/recursos-humanos"
+                  sx={{
+                    color: location.pathname === "/recursos-humanos" ? '#009DCF' : 'white',
+                    textDecoration: 'none',
                     fontSize: '1rem',
                     marginRight: '20px',
-                    fontWeight: location.pathname === "/recursos-humanos" ? 'bold' : 'normal', 
-                  }}
-                >
+                    fontWeight: location.pathname === "/recursos-humanos" ? 'bold' : 'normal',
+                  }}>
                   Recursos Humanos
                 </Typography>
               )}
               {location.pathname === "/recursos-humanos" && (
-                <Typography
-                  component={Link}
-                  to="/sucursales"
-                  sx={{ 
+                <Typography component={Link} to="/sucursales"
+                  sx={{
                     color: location.pathname === "/sucursales" ? '#009DCF' : 'white',
-                    textDecoration: 'none', 
+                    textDecoration: 'none',
                     fontSize: '1rem',
                     marginRight: '20px',
-                    fontWeight: location.pathname === "/sucursales" ? 'bold' : 'normal', 
-                  }}
-                >
+                    fontWeight: location.pathname === "/sucursales" ? 'bold' : 'normal',
+                  }}>
                   Sucursales
                 </Typography>
               )}
@@ -180,10 +165,7 @@ function Navbar() {
               </IconButton>
             </Tooltip>
             <Backdrop
-              sx={{
-                zIndex: (theme) => theme.zIndex.drawer + 1,
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              }}
+              sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
               open={Boolean(anchorElUser)}
               onClick={handleCloseUserMenu}
             />
@@ -197,15 +179,9 @@ function Navbar() {
               }}
               id="menu-appbar"
               anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
               keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
@@ -227,9 +203,7 @@ function Navbar() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 2,
-                  '&:hover': {
-                    backgroundColor: '#e0e0e0',
-                  },
+                  '&:hover': { backgroundColor: '#e0e0e0' },
                 }}
               >
                 <LogoutIcon sx={{ color: 'black', fontSize: '18px' }} />
@@ -246,4 +220,3 @@ function Navbar() {
 }
 
 export default Navbar;
-

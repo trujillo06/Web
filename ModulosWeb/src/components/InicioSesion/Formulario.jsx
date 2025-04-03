@@ -23,7 +23,7 @@ function Formulario() {
   const sanitizeInput = (input) => {
     return input
       .replace(/[<>{}"']/g, "")  // Elimina caracteres comunes de XSS
-      .replace(/script/gi, ""); 
+      .replace(/script/gi, "");
   };
 
   useEffect(() => {
@@ -74,9 +74,9 @@ function Formulario() {
       const token = res.data.token ?? res.data.access_token;
       if (!token) throw new Error("No se recibió token.");
 
-      // Limpiar token viejo y guardar nuevo
-      sessionStorage.removeItem("token");
+      // 🔐 Guardar token y correo del usuario en sessionStorage
       sessionStorage.setItem("token", token);
+      sessionStorage.setItem("correoUsuario", sanitizedEmail); // ← Aquí guardamos el correo
 
       setModalType("success");
       setModalTitle("Éxito");

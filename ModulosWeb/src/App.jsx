@@ -5,6 +5,7 @@ import Sucursales from "./components/Sucursales/ViewSucursales";
 import RecursosHumanos from "./components/RH/ViewRH";
 import Dashboard from "./components/Dashboard/Dashboard";
 import FormularioEmpleados from "./components/RH/FormularioEmpleado";
+import PrivateRoute from "./components/Auth/PrivateRoute"; // <- importado
 import axios from "axios";
 import "./App.css";
 
@@ -13,19 +14,48 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
+          {/* Rutas públicas */}
           <Route path="/" element={<Formulario />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/sucursales" element={<Sucursales/>} />
-          <Route path="/recursos-humanos" element={<RecursosHumanos />} />
-          <Route path="/registro-empleado" element={<FormularioEmpleados />} />
 
+          {/* Rutas privadas */}
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/sucursales"
+            element={
+              <PrivateRoute>
+                <Sucursales />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/recursos-humanos"
+            element={
+              <PrivateRoute>
+                <RecursosHumanos />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/registro-empleado"
+            element={
+              <PrivateRoute>
+                <FormularioEmpleados />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>
   );
 }
-
 
 axios.interceptors.request.use((config) => {
   const token = sessionStorage.getItem("token");
