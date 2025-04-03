@@ -5,7 +5,7 @@ import Sucursales from "./components/Sucursales/ViewSucursales";
 import RecursosHumanos from "./components/RH/ViewRH";
 import Dashboard from "./components/Dashboard/Dashboard";
 import FormularioEmpleados from "./components/RH/FormularioEmpleado";
-import PrivateRoute from "./components/Auth/PrivateRoute"; // <- importado
+import PrivateRoute from "./components/Auth/PrivateRoute";
 import axios from "axios";
 import "./App.css";
 

@@ -205,25 +205,25 @@ const Sucursales = () => {
         />
       </div>
 
-      <div className="table-responsive">
-        <table className="table table-hover">
+      <div className="table-responsive" style={{ minHeight: "300px", overflowY: "auto" }}>
+        <table className="table table-hover" style={{ tableLayout: "fixed", width: "100%" }}>
           <thead className="custom-header table-dark">
             <tr>
-              <th>Nombre</th>
-              <th>Dirección</th>
-              <th>Teléfono</th>
-              <th>Encargado</th>
+              <th className="col-nombre">Nombre</th>
+              <th className="col-direccion">Dirección</th>
+              <th className="col-telefono">Teléfono</th>
+              <th className="col-encargado">Encargado</th>
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody style={{ backgroundColor: "white" }}>
             {rows.map((sucursal, index) => (
               <tr key={sucursal ? sucursal.id_Sucursal : `empty-${index}`}>
-                <td>{sucursal?.nombre || ""}</td>
-                <td>{sucursal?.direccion || ""}</td>
-                <td>{sucursal?.telefono_Contacto || ""}</td>
-                <td>{sucursal?.nombre_Encargado || ""}</td>
-                <td className="text-center">
+                <td className="align-middle col-nombre">{sucursal?.nombre || ""}</td>
+                <td className="align-middle col-direccion">{sucursal?.direccion || ""}</td>
+                <td className="align-middle col-telefono">{sucursal?.telefono_Contacto || ""}</td>
+                <td className="align-middle col-encargado">{sucursal?.nombre_Encargado || ""}</td>
+                <td className="text-center align-middle">
                   {sucursal && (
                     <div className="iconos-acciones">
                       <button className="icono-accion editar-icono" onClick={() => {

@@ -30,9 +30,9 @@
 }
 
 th.col-nombre, td.col-nombre { width: 20%; }
-th.col-direccion, td.col-direccion { width: 35%; }
-th.col-telefono, td.col-telefono { width: 15%; }
-th.col-encargado, td.col-encargado { width: 20%; }
+th.col-direccion, td.col-direccion { width: 38%; }
+th.col-telefono, td.col-telefono { width: 10%; }
+th.col-encargado, td.col-encargado { width: 22%; }
 th:last-child, td:last-child { width: 10%; }
 
 .table th, .table td {
@@ -227,3 +227,4 @@ th:last-child, td:last-child { width: 10%; }
   filter: brightness(0) invert(1);
   opacity: 1;
 }
+
