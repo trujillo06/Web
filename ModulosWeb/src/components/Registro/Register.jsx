@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import CustomAlert from "../Alertas/CustomAlert";
 import "./Register.css";
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Register() {
   const [name, setName] = useState("");
@@ -11,7 +11,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [showModal, setShowModal] = useState(false); 
+  const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("success");
   const [modalTitle, setModalTitle] = useState("");
   const [modalMessage, setModalMessage] = useState("");
@@ -22,9 +22,7 @@ function Register() {
   const API_URL = import.meta.env.VITE_API_URL_AUTH;
 
   const sanitizeInput = (input) => {
-    return input
-      .replace(/[<>{}"']/g, "")
-      .replace(/script/gi, "");
+    return input.replace(/[<>{}"']/g, "").replace(/script/gi, "");
   };
 
   const handleSubmit = async (e) => {
@@ -49,7 +47,7 @@ function Register() {
         nombre: sanitizedName,
         correo: sanitizedEmail,
         password: sanitizedPassword,
-        rol: 1
+        rol: 1,
       });
 
       setModalType("success");
@@ -79,7 +77,7 @@ function Register() {
   const closeModal = () => {
     setShowModal(false);
     if (modalType === "success") {
-      navigate("/"); 
+      navigate("/");
     }
   };
 
@@ -164,7 +162,9 @@ function Register() {
                 autoComplete="new-password"
               />
               <i
-                className={`bi ${showConfirmPassword ? "bi-eye-slash" : "bi-eye"}`}
+                className={`bi ${
+                  showConfirmPassword ? "bi-eye-slash" : "bi-eye"
+                }`}
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 role="button"
                 aria-label="Mostrar u ocultar confirmación de contraseña"
@@ -183,7 +183,9 @@ function Register() {
         </form>
 
         <div className="login-link">
-          <p>¿Ya tienes cuenta? <a href="/">Inicia sesión aquí</a></p>
+          <p>
+            ¿Ya tienes cuenta? <a href="/">Inicia sesión aquí</a>
+          </p>
         </div>
       </div>
 

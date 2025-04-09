@@ -6,6 +6,10 @@
   /* background-color: brown; */
 }
 
+body.swal2-shown {
+  overflow-y: auto !important;
+  padding-right: 0 !important;
+}
 
 body{
   margin: 0;

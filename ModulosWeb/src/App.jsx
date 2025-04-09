@@ -5,6 +5,7 @@ import Sucursales from "./components/Sucursales/ViewSucursales";
 import RecursosHumanos from "./components/RH/ViewRH";
 import Dashboard from "./components/Dashboard/Dashboard";
 import FormularioEmpleados from "./components/RH/FormularioEmpleado";
+import EditEmpleado from "./components/RH/EditEmpleado";
 import PrivateRoute from "./components/Auth/PrivateRoute";
 import axios from "axios";
 import "./App.css";
@@ -51,18 +52,26 @@ function App() {
               </PrivateRoute>
             }
           />
+          <Route
+            path="/editar-empleado/:id"
+            element={
+              <PrivateRoute>
+                <EditEmpleado />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </div>
     </Router>
   );
 }
 
-axios.interceptors.request.use((config) => {
-  const token = sessionStorage.getItem("token");
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// axios.interceptors.request.use((config) => {
+//   const token = sessionStorage.getItem("token");
+//   if (token) {
+//     config.headers.Authorization = `Bearer ${token}`;
+//   }
+//   return config;
+// });
 
 export default App;

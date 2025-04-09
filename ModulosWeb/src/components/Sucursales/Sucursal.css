@@ -128,14 +128,14 @@ th:last-child, td:last-child { width: 10%; }
   padding: 0;
   margin: 0;
   cursor: pointer;
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   transition: transform 0.2s ease;
 }
 
 .icono-accion:hover {
-  transform: scale(1.25);
+  transform: scale(1.15);
 }
 
 .editar-icono svg {
@@ -227,4 +227,5 @@ th:last-child, td:last-child { width: 10%; }
   filter: brightness(0) invert(1);
   opacity: 1;
 }
+
 

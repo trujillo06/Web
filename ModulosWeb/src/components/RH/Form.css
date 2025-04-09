@@ -119,6 +119,31 @@ input[disabled] {
     text-align: center;
 }
 
+
+.campo-con-error {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.campo-con-error .input-rounded {
+  flex: 1;
+}
+
+.error-text-absolute {
+  position: absolute;
+  left: 170px; 
+  top: 100%;
+  color: red;
+  font-size: 10px;
+  font-weight: 500;
+  margin-top: 2px;
+  line-height: 1;
+}
+
+
+
+
 /* FOTO */
 .foto-empleado {
     width: 200px;
@@ -127,7 +152,7 @@ input[disabled] {
 
 .foto-box {
     width: 100%;
-    height: 150px;
+    height: 220px;
     border: 2px dashed #ccc;
     border-radius: 4px;
     background-color: #f5f5f5;
@@ -235,6 +260,25 @@ input[disabled] {
     font-size: 13px;
 }
 
+.doc-item .radio-group-doc {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .doc-item .radio-group-doc label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 500;
+  }
+  
+  .doc-item .file-contrato {
+    flex: 1;
+  }
+
+
+
 /*  ESPACIADO GENERAL */
 .form-content {
     margin-top: 30px;
@@ -251,42 +295,190 @@ input[disabled] {
   
 
 /*  RESPONSIVE */
+
+@media (max-width: 1024px) {
+  .tab {
+    min-width: 250px;
+    font-size: 13px;
+    padding: 10px 20px;
+  }
+
+  .registro-container {
+    padding: 20px;
+  }
+}
+
 @media (max-width: 768px) {
-    .tab-panel {
-        flex-direction: column;
-    }
+  .tab-panel {
+    gap: 20px;
+  }
 
-    .botones {
-        flex-direction: column;
-        align-items: stretch;
-    }
+  .foto-empleado {
+    max-width: 100%;
+    margin: 0 auto;
+  }
 
-    .left,
-    .right,
-    .foto-empleado {
-        width: 100%;
-    }
+  .foto-box {
+    height: 180px;
+  }
 
-    .tabs {
-        flex-direction: column;
-        align-items: center;
-    }
+  .form-btn {
+    width: 100%;
+    text-align: center;
+  }
 
-    .documentacion-grid {
-        grid-template-columns: 1fr;
-    }
+  .botones {
+    position: static;
+    margin-top: 20px;
+  }
 
-    label {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+  .tabs {
+    width: 100%;
+  }
 
-    label span {
-        width: 100%;
-        margin-bottom: 5px;
-    }
+  .tab {
+    width: 100%;
+    min-width: unset;
+  }
 
-    .doc-item input {
-        width: 100%;
-    }
+  .form-content {
+    margin-top: 20px;
+  }
+
+  .doc-item {
+    width: 100%;
+  }
+
+  .radio-options {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .input-file {
+    font-size: 13px;
+    padding: 4px 8px;
+  }
+
+  .error-text-absolute {
+    position: static;
+    font-size: 11px;
+    margin-top: 4px;
+  }
+}
+
+/* no funciono :( */
+@media (max-width: 480px) {
+  .registro-container {
+    margin-top: 80px;
+    padding: 10px;
+    width: 100%;
+    min-height: auto;
+  }
+
+  .tabs {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .tab {
+    width: 100%;
+    min-width: unset;
+    padding: 10px;
+    border-radius: 0;
+    border-right: none;
+    border-bottom: 1px solid #b0bec5;
+  }
+
+  .tab.active {
+    padding: 10px;
+  }
+
+  .tab-panel {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .left, .right {
+    width: 100%;
+    min-width: unset;
+  }
+
+  label {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  label span {
+    width: 100%;
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+
+  .registro-container input,
+  .registro-container select {
+    width: 100%;
+    font-size: 13px;
+    height: 32px;
+  }
+
+  .radio-group {
+    margin-left: 0;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .radio-options {
+    margin-left: 0;
+    flex-direction: row;
+    gap: 15px;
+    margin-top: 5px;
+  }
+
+  .foto-empleado {
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .foto-box {
+    height: 150px;
+  }
+
+  .documentacion-grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .botones {
+    position: static;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .form-btn {
+    width: 100%;
+  }
+
+  .error-text-absolute {
+    position: static;
+    margin-top: 4px;
+    font-size: 11px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .registro-container {
+    padding: 15px;
+  }
+
+  .tab {
+    min-width: unset;
+    padding: 10px 15px;
+    font-size: 12px;
+  }
+
+  .documentacion-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

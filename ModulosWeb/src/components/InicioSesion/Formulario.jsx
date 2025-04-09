@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Formulario.css";
 import CustomAlert from "../Alertas/CustomAlert";
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Formulario() {
   const [email, setEmail] = useState("");
@@ -22,7 +22,7 @@ function Formulario() {
 
   const sanitizeInput = (input) => {
     return input
-      .replace(/[<>{}"']/g, "")  // Elimina caracteres comunes de XSS
+      .replace(/[<>{}"']/g, "") // Elimina caracteres comunes de XSS
       .replace(/script/gi, "");
   };
 
@@ -34,7 +34,7 @@ function Formulario() {
       setIsSubmitting(true);
 
       timerInterval = setInterval(() => {
-        setSecondsLeft(prev => {
+        setSecondsLeft((prev) => {
           if (prev <= 1) {
             clearInterval(timerInterval);
             setFailedAttempts(0);
@@ -74,9 +74,8 @@ function Formulario() {
       const token = res.data.token ?? res.data.access_token;
       if (!token) throw new Error("No se recibió token.");
 
-      // 🔐 Guardar token y correo del usuario en sessionStorage
       sessionStorage.setItem("token", token);
-      sessionStorage.setItem("correoUsuario", sanitizedEmail); // ← Aquí guardamos el correo
+      sessionStorage.setItem("correoUsuario", sanitizedEmail);
 
       setModalType("success");
       setModalTitle("Éxito");
@@ -96,7 +95,7 @@ function Formulario() {
         errorMessage = "No se pudo contactar al servidor.";
       }
 
-      setFailedAttempts(prev => prev + 1);
+      setFailedAttempts((prev) => prev + 1);
       setModalType("error");
       setModalTitle("Error");
       setModalMessage(errorMessage);
@@ -107,7 +106,10 @@ function Formulario() {
   };
 
   return (
-    <div className="login-container" aria-label="Formulario de inicio de sesión seguro">
+    <div
+      className="login-container"
+      aria-label="Formulario de inicio de sesión seguro"
+    >
       <div className="login-box">
         <h2 className="h2-color">Iniciar Sesión</h2>
         <form onSubmit={handleSubmit} autoComplete="off" spellCheck="false">
@@ -154,14 +156,19 @@ function Formulario() {
           </button>
 
           {failedAttempts >= 5 && (
-            <p className="error-message" style={{ color: "red", marginTop: "10px" }}>
+            <p
+              className="error-message"
+              style={{ color: "red", marginTop: "10px" }}
+            >
               Demasiados intentos. Intenta de nuevo en {secondsLeft} segundos...
             </p>
           )}
         </form>
 
         <div className="register-link">
-          <p>¿Aún no tienes cuenta? <a href="/Register">Regístrate aquí</a></p>
+          <p>
+            ¿Aún no tienes cuenta? <a href="/Register">Regístrate aquí</a>
+          </p>
         </div>
       </div>
 

@@ -14,7 +14,11 @@ function Dashboard() {
           <span>Sucursales</span>
         </Link>
         <Link to="/recursos-humanos" className="dashboard-box">
-          <img src={recursosImg} alt="Recursos Humanos" className="dashboard-img" />
+          <img
+            src={recursosImg}
+            alt="Recursos Humanos"
+            className="dashboard-img"
+          />
           <span>Recursos Humanos</span>
         </Link>
       </div>
