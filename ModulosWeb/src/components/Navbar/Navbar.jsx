@@ -1,25 +1,6 @@
 import * as React from "react";
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  IconButton,
-  Typography,
-  Menu,
-  Container,
-  Avatar,
-  MenuItem,
-  Tooltip,
-  Backdrop,
-  useMediaQuery,
-} from "@mui/material";
-import {
-  Logout as LogoutIcon,
-  Person as PersonIcon,
-  Menu as MenuIcon,
-  Business as BusinessIcon,
-  People as PeopleIcon,
-} from "@mui/icons-material";
+import {AppBar,Box,Toolbar,IconButton,Typography,Menu,Container,Avatar,MenuItem,Tooltip,Backdrop,useMediaQuery,} from "@mui/material";
+import {Logout as LogoutIcon,Person as PersonIcon,Menu as MenuIcon,Business as BusinessIcon,People as PeopleIcon,} from "@mui/icons-material";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import usuarioIcon from "../../assets/usuario.png";
 
@@ -58,8 +39,14 @@ function Navbar() {
     setAnchorElMenu(null);
   };
 
+  // const handleLogout = () => {
+  //   setAnchorElUser(null);
+  //   sessionStorage.removeItem("token");
+  //   sessionStorage.removeItem("correoUsuario"); // Limpiamos también el correo
+  //   navigate("/");
+  // };
+
   const handleLogout = () => {
-    console.log("Cerrar sesión");
     setAnchorElUser(null);
     sessionStorage.removeItem("token");
     sessionStorage.removeItem("correoUsuario"); // Limpiamos también el correo

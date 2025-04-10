@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "../Navbar/Navbar";
 import { PencilSquare, Trash, Plus } from "react-bootstrap-icons";
 import CustomAlert from "../Alertas/CustomAlert"; 
-
+import { sanitizeInput } from "../../utils/sanitize";
 import "./Sucursal.css";
 
 const API_URL = import.meta.env.VITE_API_URL_SUC;
@@ -69,7 +69,12 @@ const Sucursales = () => {
       const response = await fetch(`${API_URL}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(newSucursal),
+        body: JSON.stringify({
+          nombre: sanitizeInput(newSucursal.nombre),
+          direccion: sanitizeInput(newSucursal.direccion),
+          telefono_Contacto: sanitizeInput(newSucursal.telefono_Contacto),
+          nombre_Encargado: sanitizeInput(newSucursal.nombre_Encargado),
+        }),
       });
 
       if (!response.ok) throw new Error("Error al agregar sucursal");
@@ -98,7 +103,14 @@ const Sucursales = () => {
       const response = await fetch(`${API_URL}/${editSucursal.id_Sucursal}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(editSucursal),
+        body: JSON.stringify({
+          ...editSucursal,
+          nombre: sanitizeInput(editSucursal.nombre),
+          direccion: sanitizeInput(editSucursal.direccion),
+          telefono_Contacto: sanitizeInput(editSucursal.telefono_Contacto),
+          nombre_Encargado: sanitizeInput(editSucursal.nombre_Encargado),
+        }),
+        
       });
 
       if (!response.ok) throw new Error("Error al editar sucursal");
@@ -265,16 +277,16 @@ const Sucursales = () => {
                     style={{ height: "50px" }}
                   >
                     <td className="align-middle col-nombre">
-                      {sucursal?.nombre || ""}
+                      {sucursal ? sanitizeInput(sucursal.nombre) : ""}
                     </td>
                     <td className="align-middle col-direccion">
-                      {sucursal?.direccion || ""}
+                      {sucursal? sanitizeInput(sucursal.direccion) : ""}
                     </td>
                     <td className="align-middle col-telefono">
-                      {sucursal?.telefono_Contacto || ""}
+                      {sucursal? sanitizeInput(sucursal.telefono_Contacto) : ""}
                     </td>
                     <td className="align-middle col-encargado">
-                      {sucursal?.nombre_Encargado || ""}
+                      {sucursal? sanitizeInput(sucursal.nombre_Encargado) : ""}
                     </td>
                     <td className="text-center align-middle">
                       {sucursal && (

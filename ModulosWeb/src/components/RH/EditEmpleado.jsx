@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import CustomAlert from "../Alertas/CustomAlert";
+import { sanitizeInput } from "../../utils/sanitize";
 import "./Form.css";
 
 const MICROSERVICE_URL = import.meta.env.VITE_MICROSERVICE_URL;
@@ -11,28 +12,7 @@ const EditEmpleado = () => {
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState("personales");
-  const [formData, setFormData] = useState({
-    nombre: "",
-    apellido_paterno: "",
-    apellido_materno: "",
-    fecha_nacimiento: "",
-    sexo: "",
-    estado_civil: "",
-    direccion: "",
-    telefono: "",
-    curp: "",
-    correo: "",
-    rfc: "",
-    nss: "",
-    fecha_ingreso: "",
-    tipo_contrato: "",
-    puesto: "",
-    departamento: "",
-    sucursal: "",
-    turno: "",
-    salario: "",
-  });
-
+  const [formData, setFormData] = useState({nombre: "",apellido_paterno: "",apellido_materno: "",fecha_nacimiento: "",sexo: "",estado_civil: "",direccion: "",telefono: "",curp: "",correo: "",rfc: "",nss: "",fecha_ingreso: "",tipo_contrato: "",puesto: "",departamento: "",sucursal: "",turno: "",salario: "",});
   const [puestos, setPuestos] = useState([]);
   const [puestosFiltrados, setPuestosFiltrados] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
@@ -44,7 +24,7 @@ const EditEmpleado = () => {
   const [modalType, setModalType] = useState("success");
   const [modalTitle, setModalTitle] = useState("");
   const [modalMessage, setModalMessage] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const sexos = [
     { id_sexo: 1, descripcion: "Masculino" },
     { id_sexo: 2, descripcion: "Femenino" },
@@ -105,18 +85,29 @@ const EditEmpleado = () => {
   };
 
   const handleGuardar = async () => {
+    setLoading(true);
     try {
       const updatedData = {
         ...formData,
-        sexo: parseInt(formData.sexo),
-        estado_civil: parseInt(formData.estado_civil),
-        tipo_contrato: parseInt(formData.tipo_contrato),
-        puesto: parseInt(formData.puesto),
-        departamento: parseInt(formData.departamento),
-        sucursal: parseInt(formData.sucursal),
-        turno: parseInt(formData.turno),
-        salario: parseFloat(formData.salario),
-      };
+          nombre: sanitizeInput(formData.nombre),
+          apellido_paterno: sanitizeInput(formData.apellido_paterno),
+          apellido_materno: sanitizeInput(formData.apellido_materno),
+          direccion: sanitizeInput(formData.direccion),
+          telefono: sanitizeInput(formData.telefono),
+          curp: sanitizeInput(formData.curp),
+          correo: sanitizeInput(formData.correo),
+          rfc: sanitizeInput(formData.rfc),
+          nss: sanitizeInput(formData.nss),
+          sexo: parseInt(formData.sexo),
+          estado_civil: parseInt(formData.estado_civil),
+          tipo_contrato: parseInt(formData.tipo_contrato),
+          puesto: parseInt(formData.puesto),
+          departamento: parseInt(formData.departamento),
+          sucursal: parseInt(formData.sucursal),
+          turno: parseInt(formData.turno),
+          salario: parseFloat(formData.salario),
+        };
+        
 
       const res = await fetch(`${MICROSERVICE_URL}/empleados/${id}`, {
         method: "PUT",
@@ -136,7 +127,9 @@ const EditEmpleado = () => {
       setModalTitle("Error");
       setModalMessage("No se pudo actualizar el empleado");
       setShowModal(true);
-    }
+    } finally {
+    setLoading(false);
+  }
   };
 
   return (
@@ -444,8 +437,9 @@ const EditEmpleado = () => {
                 <button
                   className="form-btn form-btn-siguiente"
                   onClick={handleGuardar}
+                  disabled={loading}
                 >
-                  Guardar Cambios
+                  {loading ? "Guardando..." : "Guardar Cambios"}
                 </button>
               </div>
             </div>

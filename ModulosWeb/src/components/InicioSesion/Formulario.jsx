@@ -20,6 +20,17 @@ function Formulario() {
   const navigate = useNavigate();
   const API_URL = import.meta.env.VITE_API_URL_AUTH;
 
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    const isValidJWT = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/.test(
+      token
+    );
+
+    if (token && isValidJWT) {
+      sessionStorage.clear();
+    }
+  }, []);
+
   const sanitizeInput = (input) => {
     return input
       .replace(/[<>{}"']/g, "") // Elimina caracteres comunes de XSS
@@ -72,7 +83,11 @@ function Formulario() {
       });
 
       const token = res.data.token ?? res.data.access_token;
-      if (!token) throw new Error("No se recibió token.");
+
+      if (!token || token === "null" || token === "undefined") {
+        sessionStorage.removeItem("token");
+        throw new Error("Token inválido o ausente.");
+      }
 
       sessionStorage.setItem("token", token);
       sessionStorage.setItem("correoUsuario", sanitizedEmail);
@@ -86,14 +101,14 @@ function Formulario() {
       setPassword("");
       setFailedAttempts(0);
     } catch (err) {
-      console.error("Login error:", err);
-
       let errorMessage = "Ocurrió un error al iniciar sesión.";
       if (err.response) {
         errorMessage = err.response.data?.message || "Credenciales inválidas.";
       } else if (err.request) {
         errorMessage = "No se pudo contactar al servidor.";
       }
+
+      sessionStorage.removeItem("token");
 
       setFailedAttempts((prev) => prev + 1);
       setModalType("error");
@@ -142,9 +157,15 @@ function Formulario() {
               <i
                 className={`bi ${showPassword ? "bi-eye-slash" : "bi-eye"}`}
                 onClick={() => setShowPassword(!showPassword)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    setShowPassword(!showPassword);
+                  }
+                }}
                 role="button"
                 aria-label="Mostrar u ocultar contraseña"
-              ></i>
+                tabIndex="0"
+              />
             </div>
           </div>
           <button

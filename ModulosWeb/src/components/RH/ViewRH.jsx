@@ -4,6 +4,7 @@ import Navbar from "../Navbar/Navbar";
 import { PencilSquare, Trash, Plus } from "react-bootstrap-icons";
 import CustomAlert from "../Alertas/CustomAlert";
 import { useNavigate } from "react-router-dom";
+import { sanitizeInput } from "../../utils/sanitize";
 import "./RH.css";
 
 const API_URL = import.meta.env.VITE_MICROSERVICE_URL;
@@ -31,14 +32,16 @@ const RecursosHumanos = () => {
     onCancel: () => {},
   });
 
-  const mostrarAlerta = (
-    type,
-    title,
-    message,
-    onConfirm = () => {},
-    onCancel = () => setShowAlert(false)
-  ) => {
-    setAlertConfig({ type, title, message, onConfirm, onCancel });
+  const mostrarAlerta = (type, title, message, onConfirm, onCancel) => {
+    const defaultAction = () => setShowAlert(false);
+
+    setAlertConfig({
+      type,
+      title,
+      message,
+      onConfirm: onConfirm || defaultAction,
+      onCancel: onCancel || defaultAction,
+    });
     setShowAlert(true);
   };
 
@@ -105,46 +108,52 @@ const RecursosHumanos = () => {
   };
 
   const confirmDeleteEmpleado = (empleado) => {
-    setAlertConfig({
-      type: "confirm",
-      title: "¿Eliminar empleado?",
-      message: `¿Estás seguro que deseas eliminar a "${empleado.nombre} ${empleado.apellido_paterno}"?`,
-      onConfirm: () => {
+    mostrarAlerta(
+      "confirm",
+      "¿Eliminar empleado?",
+      `¿Estás seguro que deseas eliminar a "${empleado.nombre} ${empleado.apellido_paterno}"?`,
+      () => {
         setShowAlert(false);
         setTimeout(() => deleteEmpleado(empleado.id_empleado), 300);
       },
-      onCancel: () => setShowAlert(false),
-    });
-    setShowAlert(true);
+      () => setShowAlert(false)
+    );
   };
 
   const deleteEmpleado = async (id) => {
     try {
       const response = await fetch(`${API_URL}/empleados/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
 
       if (!response.ok) throw new Error("Error al eliminar empleado");
 
       await fetchEmpleados();
 
-      const updatedSucursales = sucursales.filter((s) => s.id_Sucursal !== id);
-      const totalPages = Math.ceil(updatedSucursales.length / itemsPerPage);
-      if (currentPage > totalPages) {
-        setCurrentPage(Math.max(totalPages, 1));
+      const nuevosTotal = empleados.length - 1;
+      const nuevasPaginas = Math.ceil(nuevosTotal / itemsPerPage);
+      if (currentPage > nuevasPaginas) {
+        setCurrentPage(Math.max(nuevasPaginas, 1));
       }
 
       mostrarAlerta(
         "success",
         "Empleado eliminado",
-        "El empleado ha sido eliminado correctamente."
+        "El empleado ha sido eliminado correctamente.",
+        () => setShowAlert(false),
+        () => setShowAlert(false)
       );
     } catch (error) {
       console.error(error);
       mostrarAlerta(
         "error",
         "Error al eliminar",
-        "No se pudo eliminar al empleado."
+        "No se pudo eliminar al empleado.",
+        () => setShowAlert(false),
+        () => setShowAlert(false)
       );
     }
   };
@@ -182,7 +191,6 @@ const RecursosHumanos = () => {
     indexOfFirstItem,
     indexOfLastItem
   );
-  const emptyRows = itemsPerPage - currentItems.length;
   const rows = [...currentItems];
   for (let i = 0; i < itemsPerPage - currentItems.length; i++) {
     rows.push(null);
@@ -304,13 +312,17 @@ const RecursosHumanos = () => {
                     style={{ height: "50px" }}
                   >
                     <td className="align-middle col-nombre">
-                      {e?.nombre || ""}
+                      {e?.nombre ? sanitizeInput(e.nombre) : ""}
                     </td>
                     <td className="align-middle col-apaterno">
-                      {e?.apellido_paterno || ""}
+                      {e?.apellido_paterno
+                        ? sanitizeInput(e.apellido_paterno)
+                        : ""}
                     </td>
                     <td className="align-middle col-amaterno">
-                      {e?.apellido_materno || ""}
+                      {e?.apellido_materno
+                        ? sanitizeInput(e.apellido_materno)
+                        : ""}
                     </td>
                     <td className="align-middle col-puesto">
                       {e ? getNombrePuesto(e.puesto) : ""}

@@ -4,6 +4,7 @@ import Navbar from "../Navbar/Navbar";
 import CustomAlert from "../Alertas/CustomAlert";
 import { Camera } from "react-bootstrap-icons";
 import { useNavigate } from "react-router-dom";
+import { sanitizeInput } from "../../utils/sanitize";
 
 const MICROSERVICE_URL = import.meta.env.VITE_MICROSERVICE_URL;
 
@@ -32,7 +33,6 @@ const FormularioEmpleado = () => {
     salario: "",
     usuario: 1,
   });
-
   const [puestos, setPuestos] = useState([]);
   const [puestosFiltrados, setPuestosFiltrados] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
@@ -59,11 +59,7 @@ const FormularioEmpleado = () => {
     nss: "",
     telefono: "",
   });
-  const tiposPermitidos = [
-    "application/pdf",
-    "application/msword", // .doc
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", // .docx
-  ];
+
   const [errorArchivo, setErrorArchivo] = useState("");
 
   const inputFotoRef = React.useRef(null);
@@ -155,15 +151,27 @@ const FormularioEmpleado = () => {
   const handleGuardar = async () => {
     try {
       const dataToSend = {
-        ...formData,
+        nombre: sanitizeInput(formData.nombre),
+        apellido_paterno: sanitizeInput(formData.apellido_paterno),
+        apellido_materno: sanitizeInput(formData.apellido_materno),
+        fecha_nacimiento: formData.fecha_nacimiento,
         sexo: parseInt(formData.sexo),
         estado_civil: parseInt(formData.estado_civil),
+        direccion: sanitizeInput(formData.direccion),
+        telefono: sanitizeInput(formData.telefono),
+        curp: sanitizeInput(formData.curp),
+        correo: sanitizeInput(formData.correo),
+        rfc: sanitizeInput(formData.rfc),
+        nss: sanitizeInput(formData.nss),
+        foto: sanitizeInput(formData.foto),
+        fecha_ingreso: formData.fecha_ingreso,
         tipo_contrato: parseInt(formData.tipo_contrato),
         puesto: parseInt(formData.puesto),
         departamento: parseInt(formData.departamento),
         sucursal: parseInt(formData.sucursal),
         turno: parseInt(formData.turno),
         salario: parseFloat(formData.salario),
+        usuario: formData.usuario,
       };
       console.log(" JSON FINAL ENVIADO:", JSON.stringify(dataToSend, null, 2));
       const res = await fetch(
@@ -425,7 +433,16 @@ const FormularioEmpleado = () => {
                 </div>
 
                 <div className="foto-empleado">
-                  <div className="foto-box" onClick={handleFotoClick}>
+                  <div
+                    className="foto-box"
+                    onClick={handleFotoClick}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") handleFotoClick();
+                    }}
+                    role="button"
+                    tabIndex="0"
+                    aria-label="Hacer clic para cambiar la foto del empleado"
+                  >
                     {previewFoto ? (
                       <img
                         src={previewFoto}
@@ -472,7 +489,7 @@ const FormularioEmpleado = () => {
 
                         const reader = new FileReader();
                         reader.onloadend = () => {
-                          setPreviewFoto(reader.result); 
+                          setPreviewFoto(reader.result);
 
                           //  Generar nombre único
                           const extension = file.name.split(".").pop();
@@ -505,7 +522,10 @@ const FormularioEmpleado = () => {
                 <div className="botones">
                   <button
                     className="form-btn form-btn-cancelar"
-                    onClick={() => (window.location.href = "/recursos-humanos")}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/recursos-humanos");
+                    }}
                   >
                     Cancelar
                   </button>
@@ -760,7 +780,7 @@ const FormularioEmpleado = () => {
           title={modalTitle}
           message={modalMessage}
           onConfirm={closeModal}
-          onCancel={() => setShowModal(false)} 
+          onCancel={() => setShowModal(false)}
         />
       )}
     </div>
