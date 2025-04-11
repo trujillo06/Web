@@ -474,7 +474,7 @@ const FormularioEmpleado = () => {
                     accept="image/*"
                     style={{ display: "none" }}
                     id="input-foto-empleado"
-                    ref={inputFotoRef} //esto se agrego
+                    ref={inputFotoRef} 
                     onChange={(e) => {
                       const file = e.target.files[0];
                       if (file) {
