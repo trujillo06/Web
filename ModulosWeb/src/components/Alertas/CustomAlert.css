@@ -91,7 +91,6 @@
   opacity: 0.9; 
 }
 
-/* Estilos para el tipo de modal*/
 .custom-modal.success {
   border-top: 5px solid #28a745; 
 }
@@ -126,7 +125,6 @@
   background-color: #EB394A; 
 }
 
-/* Estilos para móviles */
 @media (max-width: 480px) {
   .custom-modal {
     max-width: 90%; 

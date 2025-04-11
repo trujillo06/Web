@@ -1,22 +1,28 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image" href="./src/assets/favicon.ico" />
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Content-Security-Policy" 
-    content="
-      default-src 'self'; 
+
+    <meta http-equiv="Content-Security-Policy" content="
+      default-src 'self';
       connect-src 'self' http://54.145.241.91:5001 http://54.145.241.91:9000 http://54.145.241.91:8000;
-      script-src 'self'; 
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; 
-      font-src 'self' https://fonts.gstatic.com; 
+      script-src 'self';
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com;
       img-src 'self' data:;
-    ">  
-    <title>Login</title>
+      object-src 'none';
+      frame-ancestors 'none';
+    " />
+
+    <title>TortillaOs</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+
+

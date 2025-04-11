@@ -133,9 +133,6 @@ const FormularioEmpleado = () => {
     }
   };
 
-  // const handleFotoClick = () => {
-  //   document.getElementById("input-foto-empleado").click();
-  // };
 
   const closeModal = () => {
     setShowModal(false);
@@ -173,7 +170,6 @@ const FormularioEmpleado = () => {
         salario: parseFloat(formData.salario),
         usuario: formData.usuario,
       };
-      console.log(" JSON FINAL ENVIADO:", JSON.stringify(dataToSend, null, 2));
       const res = await fetch(
         import.meta.env.VITE_MICROSERVICE_URL + "/empleados",
         {
@@ -486,26 +482,15 @@ const FormularioEmpleado = () => {
                           );
                           return;
                         }
-
+                  
                         const reader = new FileReader();
                         reader.onloadend = () => {
                           setPreviewFoto(reader.result);
-
-                          //  Generar nombre único
+                  
                           const extension = file.name.split(".").pop();
-                          const now = new Date();
-                          const timestamp = `${now.getFullYear()}${String(
-                            now.getMonth() + 1
-                          ).padStart(2, "0")}${String(now.getDate()).padStart(
-                            2,
-                            "0"
-                          )}_${String(now.getHours()).padStart(2, "0")}${String(
-                            now.getMinutes()
-                          ).padStart(2, "0")}${String(
-                            now.getSeconds()
-                          ).padStart(2, "0")}`;
-                          const nombreArchivo = `empleado_${timestamp}.${extension}`;
-
+                          const randomId = Math.random().toString(36).substring(2, 10);
+                          const nombreArchivo = `empleado_${randomId}.${extension}`;
+                  
                           setFormData((prev) => ({
                             ...prev,
                             foto: nombreArchivo,
