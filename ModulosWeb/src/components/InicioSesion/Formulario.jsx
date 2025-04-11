@@ -33,7 +33,7 @@ function Formulario() {
 
   const sanitizeInput = (input) => {
     return input
-      .replace(/[<>{}"']/g, "") // Elimina caracteres comunes de XSS
+      .replace(/[<>{}"']/g, "") 
       .replace(/script/gi, "");
   };
 

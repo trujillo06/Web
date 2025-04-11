@@ -39,17 +39,10 @@ function Navbar() {
     setAnchorElMenu(null);
   };
 
-  // const handleLogout = () => {
-  //   setAnchorElUser(null);
-  //   sessionStorage.removeItem("token");
-  //   sessionStorage.removeItem("correoUsuario"); // Limpiamos también el correo
-  //   navigate("/");
-  // };
-
   const handleLogout = () => {
     setAnchorElUser(null);
     sessionStorage.removeItem("token");
-    sessionStorage.removeItem("correoUsuario"); // Limpiamos también el correo
+    sessionStorage.removeItem("correoUsuario"); 
     navigate("/");
   };
 
